@@ -2,6 +2,8 @@
 
 A simple tool for fetching NFT balances from a smart contract.
 
+![screencapture-localhost-3000-2023-04-28-14_45_22](https://user-images.githubusercontent.com/106103625/235228591-d1fc15ba-0a33-4241-9ebc-8223399d477c.png)
+
 ## Usage
 
 1. Enter the contract address in the input field.
