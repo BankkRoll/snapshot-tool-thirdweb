@@ -4,6 +4,8 @@ import Head from "next/head";
 import "../styles/globals.css";
 import Footer from "../components/Footer";
 import toast, { Toaster } from 'react-hot-toast';
+import { Analytics } from '@vercel/analytics/react';
+
 
 // This is the chain your dApp will work on.
 // Change this to the chain your app is built for.
@@ -20,8 +22,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Toaster />
       <Component {...pageProps} />
       <Footer />
+      <Analytics />
     </ThirdwebProvider>
   );
 }
 
 export default MyApp;
+
