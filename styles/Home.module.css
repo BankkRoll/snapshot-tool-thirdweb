@@ -1,0 +1,137 @@
+/* Container styles */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 3rem;
+}
+
+.input {
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  outline: none;
+  height: 40px; /* adjust as needed */
+}
+
+.textarea {
+  height: 200px; /* adjust as needed */
+  width: 400px;
+}
+
+.input:focus {
+  border-color: #1e90ff;
+}
+
+.radio-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.radio {
+  margin-right: 0.5rem;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 16px;
+}
+
+.button {
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #1e90ff;
+  color: #fff;
+  border-radius: 0.25rem;
+  outline: none;
+  margin: 20px;
+  cursor: pointer;
+}
+
+.button:hover {
+  box-shadow: 0 0 0 2px rgba(30, 144, 255, 0.5);
+}
+
+.button:focus {
+  box-shadow: 0 0 0 2px rgba(0, 240, 40, 0.5);
+}
+
+.button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.nft-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.nft-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+/* Radio wrapper styles */
+
+.radioWrapper {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Footer styles */
+
+.footer {
+  background-color: #000000;
+  text-align: center;
+  padding: .5rem;
+}
+
+.text {
+  color: #bdbdbd;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.link {
+  color: #9580ff;
+  text-decoration: none;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.link:hover {
+  opacity: 0.75;
+}
+
+.logo {
+  margin-top: 1rem;
+}
+
+.image {
+  display: inline-block;
+  margin: 0 0.5rem;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.image:hover {
+  opacity: 0.75;
+}
