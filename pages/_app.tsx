@@ -16,7 +16,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Snapshot Tool</title>
         <meta name="description" content="ERC721 NFT Collection Snapshot Tool" />
-        <link rel="icon" href="/your-icon-here.ico" />
       </Head>
       <Toaster />
       <Component {...pageProps} />
