@@ -99,8 +99,10 @@ const handleDownloadJSON = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>NFT Collection Snapshot Tool</h1>
-      <h3 className={styles.subtitle}>ERC-721 Ethereum Mainnet</h3>
+      <h1 className={styles.title}>
+        NFT Collection Snapshot Tool
+        <span className={styles.subtitle}>ERC-721 Ethereum Mainnet</span>
+      </h1>
 
       <input
         type="text"
