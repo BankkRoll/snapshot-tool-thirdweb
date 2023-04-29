@@ -100,7 +100,7 @@ const handleDownloadJSON = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>NFT Collection Snapshot Tool</h1>
-       <span className={styles.title}>ERC-721 Ethereum Mainnet</span>
+       <span className={styles.subtitle}>ERC-721 Ethereum Mainnet</span>
 
       <input
         type="text"
