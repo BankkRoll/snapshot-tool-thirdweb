@@ -1,3 +1,4 @@
+// index.tsx
 import { ChangeEvent, FC, useState } from 'react';
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import styles from '../styles/Home.module.css';
@@ -11,6 +12,7 @@ export default function Home() {
   const [nfts, setNfts] = useState<{ [address: string]: number }>({});
   const [csvData, setCsvData] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [network, setNetwork] = useState<string>('ethereum');
 
   const handleAddressChange = (event: ChangeEvent<HTMLInputElement>) => {
     setContractAddress(event.target.value);
@@ -24,56 +26,53 @@ export default function Home() {
     setAbi(event.target.value);
   };
 
+  const handleNetworkChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setNetwork(event.target.value);
+  };
+
   const handleFetchNFTs = async () => {
     if (!contractAddress) {
       toast.error('Please enter a contract address');
       return;
     }
-    toast.loading('Fetching NFT Contract...');
-    const sdk = new ThirdwebSDK("goerli");
-    const contract = isThirdWeb
-      ? await sdk.getContract(contractAddress)
-      : await sdk.getContract(contractAddress, JSON.parse(abi));
 
-    if (!contract) {
-      toast.error('Contract not found');
-      return;
-    }
+    try {
+      toast.loading('Fetching NFT Contract...');
+      const response = await fetch('/api/fetchNFTs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ contractAddress, network })
+      });
 
-    const fetchedNfts = await contract?.erc721.getAll();
-
-    if (!fetchedNfts) {
-      toast.success('No NFTs found');
-      return console.log("No NFTs found");
-    }
-
-    const csv = fetchedNfts?.reduce((acc: { [x: string]: number; }, nft: { owner: string; }) => {
-      const address = nft.owner;
-      const quantity = acc[address] ? acc[address] + 1 : 1;
-      return { ...acc, [address]: quantity };
-    }, {});
-
-    const filteredCsv = Object.keys(csv).reduce((acc, key) => {
-      if (key !== "0x0000000000000000000000000000000000000000") {
-        return {
-          ...acc,
-          [key]: csv[key],
-        };
+      if (!response.ok) {
+        const message = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(message, "text/html");
+        const scriptElement = doc.querySelector("script#__NEXT_DATA__");
+        if (scriptElement) {
+          const nextData = JSON.parse(scriptElement.innerHTML);
+          if (nextData && nextData.err && nextData.err.message) {
+            throw new Error(nextData.err.message);
+          }
+        }
+        throw new Error("An unknown error occurred");
       }
-      return acc;
-    }, {});
 
-    const csvString =
-      "address,quantity\r" +
-      Object.entries(filteredCsv)
-        .map(([address, quantity]) => `${address},${quantity}`)
-        .join("\r");
+      const data = await response.json();
 
-    setNfts(filteredCsv);
-    setCsvData(csvString);
-    toast.remove();
-    toast.success('NFTs fetched successfully');
+      setNfts(data);
+      setCsvData(data.csvData);
+      toast.remove();
+      toast.success('NFTs fetched successfully');
+
+    } catch (err) {
+      toast.remove();
+      toast.error(`Error: ${err as Error}`);
+    }
   };
+
 
 
   const handleDownloadCSV = () => {
@@ -85,22 +84,29 @@ export default function Home() {
     element.click();
   };
 
-const handleDownloadJSON = () => {
-  const json = Object.entries(nfts).map(([address, quantity]) => ({ address, quantity }));
-  const element = document.createElement('a');
-  const file = new Blob([JSON.stringify(json)], { type: 'application/json' });
-  element.href = URL.createObjectURL(file);
-  element.download = 'nfts.json';
-  document.body.appendChild(element);
-  element.click();
-};
+  const handleDownloadJSON = () => {
+    const json = Object.entries(nfts).map(([address, quantity]) => ({ address, quantity }));
+    const element = document.createElement('a');
+    const file = new Blob([JSON.stringify(json)], { type: 'application/json' });
+    element.href = URL.createObjectURL(file);
+    element.download = 'nfts.json';
+    document.body.appendChild(element);
+    element.click();
+  };
 
 
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>NFT Collection Snapshot Tool</h1>
-       <span className={styles.subtitle}>ERC-721 Ethereum Mainnet</span>
+       <span className={styles.subtitle}>ERC-721 -{" "}
+       <select value={network} onChange={handleNetworkChange} className={styles.select}>
+          <option value="ethereum">Ethereum Mainnet</option>
+          <option value="goerli">Goerli Testnet</option>
+          <option value="mumbai">Mumbai Testnet</option>
+        </select>
+        </span>
+
 
       <input
         type="text"
