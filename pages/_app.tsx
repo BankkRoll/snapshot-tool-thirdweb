@@ -7,7 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 const activeChain = "ethereum";
-const ClientID = process.env.CLIENT_ID;
+const ClientID = process.env.NEXT_PUBLIC_CLIENT_ID;
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
