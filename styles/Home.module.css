@@ -5,7 +5,6 @@
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  padding: 1rem;
 }
 
 .title {
@@ -13,6 +12,20 @@
   font-weight: bold;
   margin-bottom: 1rem;
 }
+
+.banner {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  margin-top: 0rem;
+  min-width: 100%;
+  padding: 1rem;
+  background-color: #2c2c2c;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 0.5rem;
+}
+
 
 .subtitle {
   font-size: .7rem;

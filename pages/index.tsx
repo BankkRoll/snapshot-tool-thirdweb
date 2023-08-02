@@ -97,7 +97,11 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>NFT Collection Snapshot Tool</h1>
+    <p className={styles.banner}>
+      This tool's functionality remains intact, but due to the long response times exceeding Vercel's serverless function timeout limits, it can no longer operate directly on Vercel. Instead, please <a href="https://github.com/BankkRoll/snapshot-tool-thirdweb" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">download the repository</a> and run it locally. The <a href="https://portal.thirdweb.com/typescript/sdk.erc721supply#getall" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">"getAll"</a> operation is still functional when executed locally. We apologize for the inconvenience.
+    </p>
+    <h1 className={styles.title}>NFT Collection Snapshot Tool</h1>
+
        <span className={styles.subtitle}>ERC-721 -{" "}
        <select value={network} onChange={handleNetworkChange} className={styles.select}>
           <option value="ethereum">Ethereum Mainnet</option>
