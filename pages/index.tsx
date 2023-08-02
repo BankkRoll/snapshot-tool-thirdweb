@@ -3,6 +3,7 @@ import { ChangeEvent, FC, useState } from 'react';
 import styles from '../styles/Home.module.css';
 import exampleAbi from '../components/exampleABI';
 import { toast } from 'react-hot-toast';
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 export default function Home() {
   const [contractAddress, setContractAddress] = useState<string>('');
@@ -34,41 +35,63 @@ export default function Home() {
       toast.error('Please enter a contract address');
       return;
     }
-
+  
     try {
       toast.loading('Fetching NFT Contract...Please wait this may take a while..');
-      const response = await fetch('/api/fetchNFTs', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ contractAddress, network })
-      });
-
-      if (!response.ok) {
-        const message = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(message, "text/html");
-        const scriptElement = doc.querySelector("script#__NEXT_DATA__");
-        if (scriptElement) {
-          const nextData = JSON.parse(scriptElement.innerHTML);
-          if (nextData && nextData.err && nextData.err.message) {
-            throw new Error(nextData.err.message);
-          }
-        }
-        throw new Error("An unknown error occurred");
+  
+      const sdk = new ThirdwebSDK(network, { clientId: process.env.NEXT_PUBLIC_CLIENT_ID });
+      const contract = await sdk.getContract(contractAddress);
+  
+      if (!contract) {
+        throw new Error('Contract not found');
       }
-
-      const data = await response.json();
-
-      setNfts(data);
-      setCsvData(data.csvData);
+  
+      const totalCount = await contract.erc721.totalCount();
+      const totalCountNumber = totalCount.toNumber();
+  
+      let fetchedNfts: any[] = [];
+      const chunkSize = 100;
+      for(let i = 0; i < totalCountNumber; i += chunkSize) {
+        const chunk = await contract.erc721.getAll({ count: chunkSize, start: i });
+        fetchedNfts = [...fetchedNfts, ...chunk];
+      }
+  
+      if (!fetchedNfts || fetchedNfts.length === 0) {
+        toast.remove();
+        toast.success('No NFTs found');
+        return;
+      }
+  
+      const csv = fetchedNfts.reduce((acc: { [x: string]: number; }, nft: { owner: string; }) => {
+        const address = nft.owner;
+        const quantity = acc[address] ? acc[address] + 1 : 1;
+        return { ...acc, [address]: quantity };
+      }, {});
+  
+      const filteredCsv = Object.keys(csv).reduce((acc, key) => {
+        if (key !== "0x0000000000000000000000000000000000000000") {
+          return {
+            ...acc,
+            [key]: csv[key],
+          };
+        }
+        return acc;
+      }, {});
+  
+      const csvString =
+        "address,quantity\r" +
+        Object.entries(filteredCsv)
+          .map(([address, quantity]) => `${address},${quantity}`)
+          .join("\r");
+  
+      setNfts(filteredCsv);
+      setCsvData(csvString);
       toast.remove();
       toast.success('NFTs fetched successfully');
-
+  
     } catch (err) {
       toast.remove();
-      toast.error(`Error: ${err as Error}`);
+      toast.error(`Error: ${err}`);
     }
   };
 
