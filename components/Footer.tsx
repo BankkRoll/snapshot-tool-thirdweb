@@ -15,18 +15,6 @@ const Footer: React.FC = () => {
           bankkroll
         </a>{" "}
       </p>
-      <p className={styles.text}>
-        (no affiliation with{" "}
-        <a
-          href="https://thirdweb.com/"
-          className={styles.link}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          thirdweb
-        </a>
-        ).
-      </p>
       <div className={styles.logo}>
         <a href="https://thirdweb.com/" target="_blank" rel="noopener noreferrer">
           <img

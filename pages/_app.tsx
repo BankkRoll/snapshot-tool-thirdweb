@@ -4,12 +4,8 @@ import Head from "next/head";
 import "../styles/globals.css";
 import Footer from "../components/Footer";
 import toast, { Toaster } from 'react-hot-toast';
-import { Analytics } from '@vercel/analytics/react';
 
 
-// This is the chain your dApp will work on.
-// Change this to the chain your app is built for.
-// You can also import additional chains from `@thirdweb-dev/chains` and pass them directly.
 const activeChain = "ethereum";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -22,7 +18,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Toaster />
       <Component {...pageProps} />
       <Footer />
-      <Analytics />
     </ThirdwebProvider>
   );
 }

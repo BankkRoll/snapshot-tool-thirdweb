@@ -11,16 +11,16 @@
     "deploy": "next build && next export && npx thirdweb@latest upload out"
   },
   "dependencies": {
-    "@thirdweb-dev/react": "^3.14.8",
-    "@thirdweb-dev/sdk": "^3.10.28",
-    "@vercel/analytics": "^1.0.0",
+    "@thirdweb-dev/react": "^3.14.23",
+    "@thirdweb-dev/sdk": "^3.10.42",
     "axios": "^1.4.0",
     "ethers": "^5",
     "express": "^4.18.2",
     "next": "^13",
     "react": "^18.2",
     "react-dom": "^18.2",
-    "react-hot-toast": "^2.4.1"
+    "react-hot-toast": "^2.4.1",
+    "thirdweb": "^0.11.4"
   },
   "devDependencies": {
     "@types/node": "^18.11.11",

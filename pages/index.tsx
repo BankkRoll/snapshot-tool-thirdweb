@@ -1,6 +1,5 @@
 // index.tsx
 import { ChangeEvent, FC, useState } from 'react';
-import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import styles from '../styles/Home.module.css';
 import exampleAbi from '../components/exampleABI';
 import { toast } from 'react-hot-toast';
@@ -37,7 +36,7 @@ export default function Home() {
     }
 
     try {
-      toast.loading('Fetching NFT Contract...');
+      toast.loading('Fetching NFT Contract...Please wait this may take a while..');
       const response = await fetch('/api/fetchNFTs', {
         method: 'POST',
         headers: {
