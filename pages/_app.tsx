@@ -2,17 +2,14 @@ import type { AppProps } from "next/app";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import Head from "next/head";
 import "../styles/globals.css";
-import Footer from "../components/Footer";
 import toast, { Toaster } from 'react-hot-toast';
 
 
-const activeChain = "ethereum";
 const ClientID = process.env.NEXT_PUBLIC_CLIENT_ID;
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThirdwebProvider
-      activeChain={activeChain}
       clientId={ClientID}
     >
       <Head>
@@ -21,7 +18,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <Toaster />
       <Component {...pageProps} />
-      <Footer />
     </ThirdwebProvider>
   );
 }
